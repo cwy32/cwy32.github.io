@@ -152,6 +152,81 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-HDFS小结" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-HDFS概念："><a href="#1-HDFS概念：" class="headerlink" title="1.    HDFS概念："></a>1.    HDFS概念：</h3><p><strong>HDFS</strong>是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。</p>
+<h3 id="2-HDFS结构："><a href="#2-HDFS结构：" class="headerlink" title="2.    HDFS结构："></a>2.    HDFS结构：</h3><p>HDFS是一个<strong>主从式</strong>架构，由一个NameNode(Master) 节点与多个DataNode(Slave)节点组成。NameNode主要用于存储管理HDFS的命名空间，DataNode用于存储文件的数据块。存储在HDFS中的文件分布在集群的节点中，这样设计的好处是，HDFS中可容纳的文件的大小并不受限于单个磁盘的大小，而可以随着机架中节点的增加而增加。<br><img src="/img/1.png" alt="hdfs架构"></p>
+<p><strong>NameNode：</strong></p>
+<p>NameNode上保存了整个集群文件系统的所有元数据，想要获得文件的具体存储位置就必须通过NameNode，并且元数据结构可以被大量客户同时修改，所以始终保持这些信息的同步很重要。NameNode在整个文件系统中占了十分重要的位置，一旦其中的内容损坏或丢失，整个文件系统也就会崩溃。NameNode中包含了两个核心的结构：<br>Fslmage维护着文件系统树以及文件树中所有的文件和文件夹的元数据；<br>EditsLog持久化地记录发生在文件系统元数据中的每一次改动；</p>
+<p>当有“写请求”时，NameNode向edits文件写入日志，成功返回后才修改内存，并向客户端返回，FsImage文件不会随时同步，在NameNode重启时与edits合并生成新的FsImage。因此有一个叫Secondary NameNode的节点，它的主要工作是帮助NameNode合并editlog，以防止编辑日志文件过大。SNN一般单独运行在一台机器上，会定期跟NN通信，当EditLog逐渐变大的时候请求其停止使用EditLog，暂时把新数据写入一个叫edit.new的新文件，SNN从NN中获取Fslmage和EditLog文件，将Fslmage载入内存，然后一条一条执行EditLog中的各项更新操作，使得内存中的Fslmage保持最新，这个过程就是EditLog就是Fslmage的文件合并。之后SNN将新的Fslmage再Post给NN，NN替换Fslmage，用edit.new 替换EditLog，这样，EditLog就又变小了。SNN不是NN的备份，但可以做一部分的元数据备份，不是实时备份。</p>
+<p><strong>DataNode:</strong></p>
+<p>DataNode又名数据节点，提供真实文件数据的存储服务，即存储的是blocks。不同的数据节点在不同的主机上，多个主机可以在一个rack(机架)上，这样一个rack断电，其他rack仍然工作。分布式存储可以有效降低负载，提高数据的可靠性以及访问的吞吐量。作为Namenode 的从节点，DataNode会不断向 NameNode 发送心跳、数据块汇报，而NameNode会根据这些心跳发送相应的指令来对数据块进行操作。</p>
+<p>HDFS为了节约成本部署在廉价的硬件设备上，为了保证其可靠性，通过增加数据的副本数量弥补硬件设备的不足，默认情况下副本系数为３，第一副本存储在本地机架的某个节点中，第二副本存储在不同机架的某个DataNode节点中，最后一个副本存储在与第二个副本相同的机架上的不同DataNode节点中。</p>
+<p><img src="/img/2.png" alt="副本位置"></p>
+<h3 id="3-HDFS运行原理："><a href="#3-HDFS运行原理：" class="headerlink" title="3.    HDFS运行原理："></a>3.    HDFS运行原理：</h3><p><strong>HDFS读流程：</strong></p>
+<p>(1)    Client访问NameNode，查询元数据信息，获得这个文件的数据块位置列表，返回输入流对象。</p>
+<p>(2)    就近挑选一台datanode服务器，请求建立输入流 。</p>
+<p>(3)    DataNode向输入流中中写数据，以packet为单位来校验。</p>
+<p>(4)    关闭输入流</p>
+<p><img src="/img/3.png" alt="hdfs读流程"></p>
+<p><strong>HDFS写流程：</strong></p>
+<p>(1)    客户端向NameNode发出写文件请求。</p>
+<p>(2)    检查是否已存在文件、检查权限。若通过检查，直接先将操作写入EditLog，并返回输出流对象。</p>
+<p>(3)    Client端按128MB的块切分文件。</p>
+<p>(4)    Client将NameNode返回的分配的可写的DataNode列表和Data数据一同发送给最近的第一个DataNode节点，此后Client端和NameNode分配的多个DataNode构成pipeline管道，Client端向输出流对象中写数据。Client每向第一个DataNode写入一个packet，这个packet便会直接在pipeline里传给第二个、第三个…DataNode。</p>
+<p>(5)    每个DataNode写完一个块后，会返回确认信息。</p>
+<p>(6)    写完数据，关闭输输出流。</p>
+<p>(7)    发送完成信号给NameNode。</p>
+<p><img src="/img/4.png" alt="hdfs写流程"></p>
+<h3 id="4-关于HDFS的改进："><a href="#4-关于HDFS的改进：" class="headerlink" title="4.    关于HDFS的改进："></a>4.    关于HDFS的改进：</h3><p>由于HDFS并不适用于小文件的存储，一些文章针对此提出了改进方案。在《HDFS中海量小文件合并与预取优化方法的研究》提出的改进方案如下：<br>即将海量文件中的小文件合并为大文件，以减少文件数量，同时建立小文件到大文件的映射，以此检索合并文件中的小文件。另外，为了加快文件的读取效率，建立了文件的 预取机制。</p>
+<p><img src="/img/5.png" alt=""></p>
+<p>NameNode负责所有元数据的管理以及处理客户端对文件的访问，随着文件的增多，NameNode的性能将会成为整个文件系统性能的瓶颈。因此也有一些文章针对这方面提出了改进意见。《一种基于LRFU缓存替换策略的HDFS客户端本地缓存设计与实现》中提出一种利用LRFU缓存替换算法在HDFS客户端建立本地缓存的解决方案。当用户请求文件时，如果HDFS客户端已缓存该文件的元数据，则不必请求NameNode，直接从缓存中读取。</p>
+<p><img src="/img/6.png" alt=""></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/26/HDFS小结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world - 副本" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
