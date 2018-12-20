@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Salted fish&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="HDFS小结1.    HDFS概念：HDFS是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。 2.    HDFS结构：HDFS是一个主从式架构，由一个NameNode(Master) 节点与多个DataNode(Slave)节">
+  <meta name="description" content="HDFS小结1.    HDFS概念：HDFS是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Salted fish&#39;s Blog">
 <meta property="og:url" content="http://yoursite.com/2018/11/26/HDFS小结/index.html">
 <meta property="og:site_name" content="Salted fish&#39;s Blog">
-<meta property="og:description" content="HDFS小结1.    HDFS概念：HDFS是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。 2.    HDFS结构：HDFS是一个主从式架构，由一个NameNode(Master) 节点与多个DataNode(Slave)节">
+<meta property="og:description" content="HDFS小结1.    HDFS概念：HDFS是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/img/1.png">
 <meta property="og:image" content="http://yoursite.com/img/2.png">
@@ -21,10 +21,10 @@
 <meta property="og:image" content="http://yoursite.com/img/4.png">
 <meta property="og:image" content="http://yoursite.com/img/5.png">
 <meta property="og:image" content="http://yoursite.com/img/6.png">
-<meta property="og:updated_time" content="2018-11-26T07:26:52.074Z">
+<meta property="og:updated_time" content="2018-12-20T02:29:46.186Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Salted fish&#39;s Blog">
-<meta name="twitter:description" content="HDFS小结1.    HDFS概念：HDFS是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。 2.    HDFS结构：HDFS是一个主从式架构，由一个NameNode(Master) 节点与多个DataNode(Slave)节">
+<meta name="twitter:description" content="HDFS小结1.    HDFS概念：HDFS是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。">
 <meta name="twitter:image" content="http://yoursite.com/img/1.png">
   
     <link rel="alternative" href="/atom.xml" title="Salted fish&#39;s Blog" type="application/atom+xml">
@@ -166,8 +166,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="HDFS小结"><a href="#HDFS小结" class="headerlink" title="HDFS小结"></a>HDFS小结</h2><h3 id="1-HDFS概念："><a href="#1-HDFS概念：" class="headerlink" title="1.    HDFS概念："></a>1.    HDFS概念：</h3><p><strong>HDFS</strong>是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。</p>
-<h3 id="2-HDFS结构："><a href="#2-HDFS结构：" class="headerlink" title="2.    HDFS结构："></a>2.    HDFS结构：</h3><p>HDFS是一个<strong>主从式</strong>架构，由一个NameNode(Master) 节点与多个DataNode(Slave)节点组成。NameNode主要用于存储管理HDFS的命名空间，DataNode用于存储文件的数据块。存储在HDFS中的文件分布在集群的节点中，这样设计的好处是，HDFS中可容纳的文件的大小并不受限于单个磁盘的大小，而可以随着机架中节点的增加而增加。<br><img src="/img/1.png" alt="hdfs架构"></p>
+        <h2 id="HDFS小结"><a href="#HDFS小结" class="headerlink" title="HDFS小结"></a>HDFS小结</h2><h3 id="1-HDFS概念："><a href="#1-HDFS概念：" class="headerlink" title="1.    HDFS概念："></a>1.    HDFS概念：</h3><p><strong>HDFS</strong>是Hadoop项目中非常重要的一个组件，被设计用来部署在低廉的硬件上，并且有着高容错性的特点，它的全称为 Hadoop Distributed File System。目前HDFS中的文件访问模式为一次性写入多次读出。<br><a id="more"></a></p>
+<h3 id="2-HDFS结构："><a href="#2-HDFS结构：" class="headerlink" title="2.    HDFS结构："></a>2.    HDFS结构：</h3><p><strong>HDFS</strong>是一个主从式架构，由一个NameNode(Master) 节点与多个DataNode(Slave)节点组成。NameNode主要用于存储管理HDFS的命名空间，DataNode用于存储文件的数据块。存储在HDFS中的文件分布在集群的节点中，这样设计的好处是，HDFS中可容纳的文件的大小并不受限于单个磁盘的大小，而可以随着机架中节点的增加而增加。<br><img src="/img/1.png" alt="hdfs架构"></p>
 <p><strong>NameNode：</strong><br>在NameNode上保存了整个集群文件系统的所有元数据，如果想要获得文件的具体存储位置必须通过NameNode，并且元数据结构可以被大量客户同时修改，所以始终保持这些信息的同步是非常重要的。NameNode在整个文件系统中占了十分重要的位置，一旦其中的内容损坏或丢失，整个文件系统也就会崩溃。NameNode中包含了两个核心的结构：<br>Fslmage维护着文件系统树以及文件树中所有的文件和文件夹的元数据；<br>EditsLog持久化地记录发生在文件系统元数据中的每一次改动；</p>
 <p>当有“写请求”时，NameNode向edits文件写入日志，成功返回后才修改内存，并向客户端返回，FsImage文件不会随时同步，在NameNode重启时与edits合并生成新的FsImage。因此有一个叫Secondary NameNode的节点，它的主要工作是帮助NameNode合并editlog，以防止编辑日志文件过大。SNN一般单独运行在一台机器上，会定期跟NN通信，当EditLog逐渐变大的时候请求其停止使用EditLog，暂时把新数据写入一个叫edit.new的新文件，SNN从NN中获取Fslmage和EditLog文件，将Fslmage载入内存，然后一条一条执行EditLog中的各项更新操作，使得内存中的Fslmage保持最新，这个过程就是EditLog就是Fslmage的文件合并。之后SNN将新的Fslmage再Post给NN，NN替换Fslmage，用edit.new 替换EditLog，这样，EditLog就又变小了。SNN不是NN的备份，但可以做一部分的元数据备份，不是实时备份。</p>
 <p><strong>DataNode:</strong><br>DataNode又名数据节点，提供真实文件数据的存储服务，即存储的是blocks。不同的数据节点在不同的主机上，多个主机可以在一个rack(机架)上，这样一个rack断电，其他rack仍然工作。分布式存储可以有效降低负载，提高数据的可靠性以及访问的吞吐量。作为Namenode 的从节点，DataNode会不断向 NameNode 发送心跳、数据块汇报，而NameNode会根据这些心跳发送相应的指令来对数据块进行操作。</p>
@@ -269,6 +269,20 @@
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2018/12/19/Hadoop小结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
