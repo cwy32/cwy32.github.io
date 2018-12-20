@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Salted fish&#39;s Blog">
 <meta property="og:description" content="Hadoop整体架构1.    Hadoop概述：Hadoop的设计思想来源于Google推出的云计算体系架构，由三篇经典论文组成，Hadoop是对Google的MapReduce、GFS和BigTable等核心技术的开源实现，是以Hadoop分布式文件系统（HDFS）和MapReduce为核心，以及一些支持Hadoop的其他子项目的通用工具组成的分布式计算系统。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/img/hadoop01.png">
-<meta property="og:updated_time" content="2018-12-20T02:29:55.050Z">
+<meta property="og:image" content="http://yoursite.com/img/hadoop01.jpg">
+<meta property="og:updated_time" content="2018-12-20T02:35:03.480Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Salted fish&#39;s Blog">
 <meta name="twitter:description" content="Hadoop整体架构1.    Hadoop概述：Hadoop的设计思想来源于Google推出的云计算体系架构，由三篇经典论文组成，Hadoop是对Google的MapReduce、GFS和BigTable等核心技术的开源实现，是以Hadoop分布式文件系统（HDFS）和MapReduce为核心，以及一些支持Hadoop的其他子项目的通用工具组成的分布式计算系统。">
-<meta name="twitter:image" content="http://yoursite.com/img/hadoop01.png">
+<meta name="twitter:image" content="http://yoursite.com/img/hadoop01.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Salted fish&#39;s Blog" type="application/atom+xml">
   
@@ -162,7 +162,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Hadoop整体架构"><a href="#Hadoop整体架构" class="headerlink" title="Hadoop整体架构"></a>Hadoop整体架构</h2><h3 id="1-Hadoop概述："><a href="#1-Hadoop概述：" class="headerlink" title="1.    Hadoop概述："></a>1.    Hadoop概述：</h3><p>Hadoop的设计思想来源于Google推出的云计算体系架构，由三篇经典论文组成，Hadoop是对Google的MapReduce、GFS和BigTable等核心技术的开源实现，是以Hadoop分布式文件系统（HDFS）和MapReduce为核心，以及一些支持Hadoop的其他子项目的通用工具组成的分布式计算系统。<br><a id="more"></a></p>
-<h3 id="2-Hadoop架构："><a href="#2-Hadoop架构：" class="headerlink" title="2.    Hadoop架构："></a>2.    Hadoop架构：</h3><p>Hadoop除了最核心的分布式数据处理（MapReduce）和分布式文件系统（HDFS）以外，还包括了ZooKeeper、Pig、HBase、Hive、Ambari等子项目。以下为Hadoop平台架构：<br><img src="/img/hadoop01.png" alt="hdfs架构"></p>
+<h3 id="2-Hadoop架构："><a href="#2-Hadoop架构：" class="headerlink" title="2.    Hadoop架构："></a>2.    Hadoop架构：</h3><p>Hadoop除了最核心的分布式数据处理（MapReduce）和分布式文件系统（HDFS）以外，还包括了ZooKeeper、Pig、HBase、Hive、Ambari等子项目。以下为Hadoop平台架构：<br><img src="/img/hadoop01.jpg" alt="hdfs架构"></p>
 <p><strong>Yarn:</strong> 资源管理、任务调度的框架，采用主从式架构，实现一个分布式操作系统的功能。主要包括三个模块，ResourceManager、NodeManager和ApplicationMaster。整个集群只有一个ResourceManager，负责所有资源的监控、分配和管理，运行在主节点上。NodeManager负责每一个节点的维护，运行在从节点上。ApplicationMaster负责每一个具体应用程序的调度和协调，负责向ResourceManager申请资源，ApplicationMaster被分布到不同的节点上，并通过隔离机制进行资源隔离，因此它们之间不会相互影响。</p>
 <p><strong>HBase:</strong> 基于HDFS作为底层存储的分布式数据库，以key-value的形式存储。HBase将逻辑上的表划分成多个数据块，存储在HRegionServer中。HMaster负责管理所有的HRegionServer，它本身并不存储任何数据，而只是存储HRegionServer的映射关系。</p>
 <p><strong>Hive:</strong> Hadoop大数据生态圈中的数据仓库，以表格的形式来组织管理HDFS上的数据，以类SQL的方式操作表格里的数据。其本质相当于一个MapReduce和HDFS的翻译终端，用户提交Hive脚本后，Hive运行时环境会将这些脚本翻译成MapReduce和HDFS的操作并向集群提交这些操作。</p>
